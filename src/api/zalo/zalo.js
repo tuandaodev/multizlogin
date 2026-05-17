@@ -871,7 +871,6 @@ export async function sendImagesToGroup(req, res) {
 }
 
 export async function loginZaloAccount(customProxy, cred) {
-    if (!checkApiKey(req, res)) return;
     let loginResolve;
     return new Promise(async (resolve, reject) => {
         console.log('Bắt đầu quá trình đăng nhập Zalo...');
