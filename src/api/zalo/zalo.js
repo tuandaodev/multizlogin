@@ -11,7 +11,7 @@ import { saveImage, removeImage } from '../../utils/helpers.js';
 
 
 export const checkApiKey = (req, res) => {
-    const apiKey = req.headers['api-key'] || req.headers['x-api-key'] || req.headers['authorization'];
+    const apiKey = req.headers['x-api-key'] || req.headers['authorization'];
     if (!apiKey || (apiKey !== process.env.API_KEY && apiKey !== `Bearer ${process.env.API_KEY}`)) {
         res.status(401).json({ success: false, error: 'Unauthorized: Invalid API Key' });
         return false;

@@ -135,7 +135,7 @@ docker-compose -f docker-compose.new.yaml up -d
 Tất cả các API đều yêu cầu API key để xác thực. API key được cấu hình trong file `.env`.
 
 ```
-X-API-Key: your_api_key
+x-api-key: your_api_key
 ```
 
 ### Các API chính
