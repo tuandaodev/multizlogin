@@ -19,7 +19,11 @@ export async function triggerN8nWebhook(msg, webhookUrl) {
     }
     
     try {
-        await axios.post(webhookUrl, msg, { headers: { 'Content-Type': 'application/json' } });
+        const headers = { 'Content-Type': 'application/json' };
+        if (process.env.API_KEY) {
+            headers['x-api-key'] = process.env.API_KEY;
+        }
+        await axios.post(webhookUrl, msg, { headers });
         return true;
     } catch (error) {
         console.error("Error sending webhook request:", error.message);
