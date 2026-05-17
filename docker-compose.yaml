@@ -13,5 +13,7 @@ services:
       - MESSAGE_WEBHOOK_URL=${MESSAGE_WEBHOOK_URL}
       - GROUP_EVENT_WEBHOOK_URL=${GROUP_EVENT_WEBHOOK_URL}
       - REACTION_WEBHOOK_URL=${REACTION_WEBHOOK_URL}
+      - SESSION_SECRET=${SESSION_SECRET}
+      - API_KEY=${API_KEY}
     restart: always
     working_dir: /app 
