@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config();
 // api/zalo/zalo.js
 import { Zalo, ThreadType } from 'zca-js';
 import { getPROXIES, getAvailableProxyIndex } from '../../services/proxyService.js';
@@ -7,10 +9,22 @@ import nodefetch from "node-fetch";
 import fs from 'fs';
 import { saveImage, removeImage } from '../../utils/helpers.js';
 
+
+export const checkApiKey = (req, res) => {
+    const apiKey = req.headers['api-key'] || req.headers['x-api-key'] || req.headers['authorization'];
+    if (!apiKey || (apiKey !== process.env.API_KEY && apiKey !== `Bearer ${process.env.API_KEY}`)) {
+        res.status(401).json({ success: false, error: 'Unauthorized: Invalid API Key' });
+        return false;
+    }
+    return true;
+};
+
 export const zaloAccounts = [];
 
 // API để lấy danh sách tài khoản đã đăng nhập
 export async function getLoggedAccounts(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const accounts = zaloAccounts.map(acc => ({
             ownId: acc.ownId,
@@ -32,6 +46,8 @@ export async function getLoggedAccounts(req, res) {
 
 // API để lấy thông tin chi tiết một tài khoản
 export async function getAccountDetails(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const { ownId } = req.params;
         const account = zaloAccounts.find(acc => acc.ownId === ownId);
@@ -82,6 +98,8 @@ function getAccountFromSelection(accountSelection) {
 
 // API tìm user với account selection
 export async function findUserByAccount(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const { phone, accountSelection } = req.body;
 
@@ -107,6 +125,8 @@ export async function findUserByAccount(req, res) {
 
 // API gửi tin nhắn với account selection
 export async function sendMessageByAccount(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const { message, threadId, type, accountSelection } = req.body;
 
@@ -133,6 +153,8 @@ export async function sendMessageByAccount(req, res) {
 
 // API gửi hình ảnh với account selection
 export async function sendImageByAccount(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const { imagePath: imageUrl, threadId, type, accountSelection } = req.body;
 
@@ -174,6 +196,8 @@ export async function sendImageByAccount(req, res) {
 
 // API lấy thông tin user với account selection
 export async function getUserInfoByAccount(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const { userId, accountSelection } = req.body;
 
@@ -199,6 +223,8 @@ export async function getUserInfoByAccount(req, res) {
 
 // API gửi lời mời kết bạn với account selection
 export async function sendFriendRequestByAccount(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const { userId, message, accountSelection } = req.body;
 
@@ -225,6 +251,8 @@ export async function sendFriendRequestByAccount(req, res) {
 
 // API tạo nhóm với account selection
 export async function createGroupByAccount(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const { members, name, avatarPath, accountSelection } = req.body;
 
@@ -250,6 +278,8 @@ export async function createGroupByAccount(req, res) {
 
 // API lấy thông tin nhóm với account selection
 export async function getGroupInfoByAccount(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const { groupId, accountSelection } = req.body;
 
@@ -275,6 +305,8 @@ export async function getGroupInfoByAccount(req, res) {
 
 // API thêm thành viên vào nhóm với account selection
 export async function addUserToGroupByAccount(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const { groupId, memberId, accountSelection } = req.body;
 
@@ -300,6 +332,8 @@ export async function addUserToGroupByAccount(req, res) {
 
 // API xóa thành viên khỏi nhóm với account selection
 export async function removeUserFromGroupByAccount(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const { memberId, groupId, accountSelection } = req.body;
 
@@ -325,6 +359,8 @@ export async function removeUserFromGroupByAccount(req, res) {
 
 // API gửi hình ảnh đến user với account selection
 export async function sendImageToUserByAccount(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const { imagePath: imageUrl, threadId, accountSelection } = req.body;
 
@@ -365,6 +401,8 @@ export async function sendImageToUserByAccount(req, res) {
 
 // API gửi nhiều hình ảnh đến user với account selection
 export async function sendImagesToUserByAccount(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const { imagePaths: imageUrls, threadId, accountSelection } = req.body;
 
@@ -415,6 +453,8 @@ export async function sendImagesToUserByAccount(req, res) {
 
 // API gửi hình ảnh đến nhóm với account selection
 export async function sendImageToGroupByAccount(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const { imagePath: imageUrl, threadId, accountSelection } = req.body;
 
@@ -455,6 +495,8 @@ export async function sendImageToGroupByAccount(req, res) {
 
 // API gửi nhiều hình ảnh đến nhóm với account selection
 export async function sendImagesToGroupByAccount(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const { imagePaths: imageUrls, threadId, accountSelection } = req.body;
 
@@ -504,6 +546,8 @@ export async function sendImagesToGroupByAccount(req, res) {
 }
 
 export async function findUser(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const { phone, ownId } = req.body;
         if (!phone || !ownId) {
@@ -521,6 +565,8 @@ export async function findUser(req, res) {
 }
 
 export async function getUserInfo(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const { userId, ownId } = req.body;
         if (!userId || !ownId) {
@@ -538,6 +584,8 @@ export async function getUserInfo(req, res) {
 }
 
 export async function sendFriendRequest(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const { userId, ownId } = req.body;
         if (!userId || !ownId) {
@@ -555,6 +603,8 @@ export async function sendFriendRequest(req, res) {
 }
 
 export async function sendMessage(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const { message, threadId, type, ownId } = req.body;
         if (!message || !threadId || !ownId) {
@@ -573,6 +623,8 @@ export async function sendMessage(req, res) {
 }
 
 export async function createGroup(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const { members, name, avatarPath, ownId } = req.body;
         // Kiểm tra dữ liệu hợp lệ
@@ -592,6 +644,8 @@ export async function createGroup(req, res) {
 }
 
 export async function getGroupInfo(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const { groupId, ownId } = req.body;
         // Kiểm tra dữ liệu: groupId phải tồn tại và nếu là mảng thì không rỗng
@@ -611,6 +665,8 @@ export async function getGroupInfo(req, res) {
 }
 
 export async function addUserToGroup(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const { groupId, memberId, ownId } = req.body;
         // Kiểm tra dữ liệu hợp lệ: groupId và memberId không được bỏ trống
@@ -630,6 +686,8 @@ export async function addUserToGroup(req, res) {
 }
 
 export async function removeUserFromGroup(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const { memberId, groupId, ownId } = req.body;
         // Kiểm tra dữ liệu: groupId và memberId phải được cung cấp, nếu memberId là mảng thì không được rỗng
@@ -650,6 +708,8 @@ export async function removeUserFromGroup(req, res) {
 
 // Hàm gửi một hình ảnh đến người dùng
 export async function sendImageToUser(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const { imagePath: imageUrl, threadId, ownId } = req.body;
         if (!imageUrl || !threadId || !ownId) {
@@ -683,6 +743,8 @@ export async function sendImageToUser(req, res) {
 
 // Hàm gửi nhiều hình ảnh đến người dùng
 export async function sendImagesToUser(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const { imagePaths: imageUrls, threadId, ownId } = req.body;
         if (!imageUrls || !threadId || !ownId || !Array.isArray(imageUrls) || imageUrls.length === 0) {
@@ -728,6 +790,8 @@ export async function sendImagesToUser(req, res) {
 
 // Hàm gửi một hình ảnh đến nhóm
 export async function sendImageToGroup(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const { imagePath: imageUrl, threadId, ownId } = req.body;
         if (!imageUrl || !threadId || !ownId) {
@@ -761,6 +825,8 @@ export async function sendImageToGroup(req, res) {
 
 // Hàm gửi nhiều hình ảnh đến nhóm
 export async function sendImagesToGroup(req, res) {
+    if (!checkApiKey(req, res)) return;
+
     try {
         const { imagePaths: imageUrls, threadId, ownId } = req.body;
         if (!imageUrls || !threadId || !ownId || !Array.isArray(imageUrls) || imageUrls.length === 0) {
@@ -805,6 +871,7 @@ export async function sendImagesToGroup(req, res) {
 }
 
 export async function loginZaloAccount(customProxy, cred) {
+    if (!checkApiKey(req, res)) return;
     let loginResolve;
     return new Promise(async (resolve, reject) => {
         console.log('Bắt đầu quá trình đăng nhập Zalo...');
@@ -965,7 +1032,7 @@ export async function loginZaloAccount(customProxy, cred) {
 
             console.log('Đang lưu cookie...');
             const context = await api.getContext();
-            const {imei, cookie, userAgent} = context;
+            const { imei, cookie, userAgent } = context;
             const data = {
                 imei: imei,
                 cookie: cookie,
