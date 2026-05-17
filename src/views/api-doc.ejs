@@ -44,6 +44,7 @@
         <li><a href="#sendImagesToGroupByAccount">sendImagesToGroupByAccount</a></li>
     </ol>
 
+    <% if (!cleanDocsForAgent) { %>
     <h3>⚠️ APIs Cũ (Cần ownId)</h3>
     <ol start="16">
         <li><a href="#findUser">findUser</a></li>
@@ -59,6 +60,7 @@
         <li><a href="#sendImageToGroup">sendImageToGroup</a></li>
         <li><a href="#sendImagesToGroup">sendImagesToGroup</a></li>
     </ol>
+    <% } %>
 
     <hr/>
 
@@ -388,6 +390,7 @@ curl -X POST -H "Content-Type: application/json" -d '{
 
     <hr/>
 
+    <% if (!cleanDocsForAgent) { %>
     <!-- ===== OLD APIs ===== -->
     <h2>⚠️ APIs Cũ (Cần ownId)</h2>
     <p><strong>Lưu ý:</strong> Các APIs này vẫn hoạt động nhưng khuyến nghị sử dụng APIs *ByAccount ở trên.</p>
@@ -903,8 +906,10 @@ curl -X POST -H "Content-Type: application/json" -d '{
     </pre>
 
     <hr/>
+    <% } %>
 
     <footer>
+      <% if (!cleanDocsForAgent) { %>
       <h2>📚 Tóm tắt</h2>
       <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
         <h3>🔥 APIs Khuyến nghị (N8N-Friendly)</h3>
@@ -935,18 +940,21 @@ POST /api/sendMessageByAccount
   "accountSelection": "{{ $node['Get Accounts'].json.data[0].phoneNumber }}"
 }
         </pre>
-
+        
+       
         <h3>🔗 Liên kết hữu ích</h3>
         <ul>
           <li><a href="#accounts">📋 Quản lý tài khoản</a></li>
           <li><a href="#findUserByAccount">🔍 APIs N8N-Friendly</a></li>
           <li><a href="#findUser">⚠️ APIs cũ (legacy)</a></li>
         </ul>
+       
       </div>
 
       <p style="text-align: center; margin-top: 40px; color: #666;">
         &copy; 2024 Zalo API Documentation - Updated with N8N-Friendly APIs
       </p>
+      <% } %>
     </footer>
   </body>
 </html>

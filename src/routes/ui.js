@@ -89,9 +89,14 @@ router.get('/updateWebhookForm', (req, res) => {
     res.render('updateWebhookForm');
 });
 
-// Endpoint hiển thị tài liệu API
+// Endpoint hiển thị tài liệu API (đầy đủ, gồm APIs cũ)
 router.get('/list', (req, res) => {
-    res.render('api-doc');
+    res.render('api-doc', { cleanDocsForAgent: false });
+});
+
+// Tài liệu API rút gọn (không gồm APIs cũ cần ownId)
+router.get('/docs', (req, res) => {
+    res.render('api-doc', { cleanDocsForAgent: true });
 });
 
 // Lấy danh sách tài khoản đã đăng nhập

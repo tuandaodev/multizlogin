@@ -1,4 +1,4 @@
-FROM cangphamdocker/zalo-server:latest
+FROM node:20-alpine
 
 # Set work directory
 WORKDIR /app
@@ -19,5 +19,5 @@ RUN mkdir -p /app/data/cookies
 RUN npm cache clean --force
 
 # Mở cổng và định nghĩa điểm vào (entrypoint)
-EXPOSE 3000
+EXPOSE ${PORT}
 CMD ["node", "server.js"]
