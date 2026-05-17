@@ -297,7 +297,19 @@ export const authMiddleware = (req, res, next) => {
     return next();
   }
 
-  // Chuyển hướng về trang đăng nhập
+  // Bỏ qua cho các API request có mang theo API Key
+  // Việc validate cụ thể API Key sẽ được xử lý ở Zalo controllers
+  const apiKey = req.headers['api-key'] || req.headers['x-api-key'] || req.headers['authorization'];
+  if (apiKey) {
+    return next();
+  }
+
+  // Nếu là API endpoint, trả về 401 thay vì redirect
+  if (req.path.startsWith('/api/')) {
+    return res.status(401).json({ success: false, message: 'Unauthorized. Vui lòng đăng nhập hoặc cung cấp API Key.' });
+  }
+
+  // Chuyển hướng về trang đăng nhập cho các route UI
   res.redirect('/admin-login');
 };
 
