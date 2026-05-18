@@ -42,4 +42,6 @@ jspm_packages/
 
 cred*
 .qodo
-zalo_data
+zalo_data/
+data/cookies/
+data/cookies/users.json
