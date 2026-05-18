@@ -137,7 +137,7 @@ export async function sendMessageByAccount(req, res) {
         const account = getAccountFromSelection(accountSelection);
         const msgType = type || ThreadType.User;
         const result = await account.api.sendMessage(message, threadId, msgType);
-
+        console.log("Kết quả gửi tin nhắn:", result);
         res.json({
             success: true,
             data: result,
@@ -147,6 +147,7 @@ export async function sendMessageByAccount(req, res) {
             }
         });
     } catch (error) {
+        console.error("Lỗi khi gửi tin nhắn:", error);
         res.status(500).json({ success: false, error: error.message });
     }
 }
